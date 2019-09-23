@@ -15,4 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/hello', 'HelloController@index');
+Route::get('/about', 'HelloController@about');
+Route::get('/services', 'HelloController@services');
+
+// こんな書き方もあるよというサンプル
+// Route::view('/about', 'about');
+// Route::view('/services', 'services');
