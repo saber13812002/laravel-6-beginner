@@ -16,5 +16,7 @@ Route::get('/', function () {
 });
 
 Route::get('/hello', function () {
-    return view('subviews.hello');
+    $coolString = 'Hello from Routes AGAIN.';
+
+    return view('subviews.hello', compact('coolString'));
 });
