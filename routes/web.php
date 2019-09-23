@@ -15,8 +15,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/hello', function () {
-    $coolString = 'Hello from Routes AGAIN.';
-
-    return view('subviews.hello', compact('coolString'));
-});
+Route::get('/hello', 'HelloController@index');
