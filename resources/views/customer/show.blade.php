@@ -12,4 +12,11 @@
 
 <div>
     <a href="/customers/{{ $customer->id }}/edit">Edit</a>
+
+    <form action="/customers/{{ $customer->id }}" method="POST">
+        @csrf
+        @method('DELETE')
+
+        <button>Delete</button>
+    </form>
 </div>

@@ -2,62 +2,61 @@
 
 namespace App\Http\Controllers;
 
+use App\Customer;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
     public function index()
     {
-        $customers = \App\Customer::all();
+        $customers = Customer::all();
 
         return view('customer.index', compact('customers'));
     }
 
     public function create()
     {
-        return view('customer.create');
+        $customer = new Customer();
+    
+        return view('customer.create', compact('customer'));
     }
 
     public function store()
     {
-        $data = request()->validate([
-            'name' => 'required',
-            'email' => 'required|email'
-        ]);
+        $customer = Customer::create($this->validateData());
 
-        \App\Customer::create($data);
-
-        return redirect('/customers');
+        return redirect('/customers/' . $customer->id);
     }
 
-    public function show_1($customerId)
-    {
-        // $customer = \App\Customer::find($customerId);
-        // 存在しない $customerId の場合 404 ページを返す
-        $customer = \App\Customer::findOrFail($customerId);
-
-        return view('customer.show', compact('customer'));
-    }
-
-    public function show(\App\Customer $customer)
+    public function show(Customer $customer)
     {
         return view('customer.show', compact('customer'));
     }
 
-    public function edit(\App\Customer $customer)
+    public function edit(Customer $customer)
     {
         return view('customer.edit', compact('customer'));
     }
 
-    public function update(\App\Customer $customer)
+    public function update(Customer $customer)
     {
-        $data = request()->validate([
+        $customer->update($this->validateData());
+
+        return redirect('/customers');
+    }
+
+    public function destroy(Customer $customer)
+    {
+        $customer->delete($customer);
+
+        return redirect('/customers');
+    }
+    
+    protected function validateData()
+    {
+        return request()->validate([
             'name' => 'required',
             'email' => 'required|email'
         ]);
-
-        $customer->update($data);
-
-        return redirect('/customers');
     }
 }
